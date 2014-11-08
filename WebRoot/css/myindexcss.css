@@ -1,0 +1,147 @@
+body {
+	margin: 0;
+	background-image:url("../images/bj.jpg");
+}
+
+div {
+	margin: 0 auto;	
+}
+
+div#container {
+	width: 1350px;
+}
+
+div#header {
+	background-color: #99bbbb;
+	background-image: url('../images/header.jpg');
+	padding: 10px;
+	
+}
+
+div#menu {
+	background-color: #ffff99;
+	width: 200px;
+	float: left;
+	border-style: groove;
+	padding: 10px;
+	height: 650px;
+	font-family: verdana,arial,sans-serif;
+	background-image: url('../images/menu.png');
+}
+
+div#content {
+	float: left;
+	padding: 50px;
+}
+
+table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	border-collapse:collapse;
+	border:1px solid #aaa;
+	width:100%;
+	margin-left: 50px;
+}
+
+td {
+	padding-top: 20px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 10px;
+	background-color: #ffffff;
+}
+
+table#show {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+
+table#show td{
+	border-width: 1px;
+	padding-top: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 10px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+table#show th{
+	border-width: 1px;
+	padding-top: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 10px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+div#footer {
+	background-color: #99bbbb;
+	height: 50px;
+	
+	clear: both;
+	text-align: center;
+}
+
+head {
+	padding: 0px;
+	margin: 0px;
+}
+
+h1 {
+	margin-bottom: 0;
+}
+
+h2 {
+	margin-bottom: 0;
+	font-size: 14px;
+}
+
+ul {
+	margin: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	padding: 1px;
+	color: blue;
+}
+
+a:hover {
+	background-color: LightGrey;
+}
+
+.center {
+	text-align: center;
+}
+
+.text {
+	font-family: "黑体";
+	font-size: 16px;
+}
+
+.textfield {
+	height: auto;
+	width: 200;}
+
+.indexbutton {
+	height: 25px;
+	margin-left: 95px;
+	width: 80px;
+}
+#link span {
+	margin-right: 30px;
+	margin-left: 30px;
+}
+

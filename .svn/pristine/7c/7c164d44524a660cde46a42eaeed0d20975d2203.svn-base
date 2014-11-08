@@ -1,0 +1,129 @@
+package com.ats.dao;
+
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
+
+import com.ats.domain.CimDepartment;
+import com.ats.domain.CimPersonnel;
+import com.ats.domain.FamAssets;
+
+public class PersonnelDaoImpl implements PersonnelDao {
+	private Configuration config = new Configuration().configure();
+	private SessionFactory sf = config.buildSessionFactory();
+	private Session session = sf.openSession();
+	private Transaction ts = session.beginTransaction();
+
+	@Override
+	public boolean personnelAdd(CimPersonnel cimPersonnel, int dep_id) {
+		CimDepartment cimDepartment = (CimDepartment) session.get(
+		CimDepartment.class, dep_id);
+	
+		if (cimDepartment == null)
+			return false;
+	
+		cimPersonnel.setCimDepartment(cimDepartment);
+	
+		session.save(cimPersonnel);
+		ts.commit();
+		return true;
+	}
+
+	@Override
+	public boolean personnelDelete(int id) {
+		CimPersonnel cimPersonnel = (CimPersonnel) session.get(
+				CimPersonnel.class, id);
+		Criteria criteria = session.createCriteria(FamAssets.class);
+		List<FamAssets> famAssetsList = criteria.list();
+
+		if (cimPersonnel == null)
+			return false;
+
+		for (FamAssets famAssets : famAssetsList)
+			if (famAssets.getCimPersonnel().getId() == id)
+				return false;
+
+		session.delete(cimPersonnel);
+		ts.commit();
+		return true;
+	}
+
+	@Override
+	public boolean personnelModify(CimPersonnel cimPersonnel, int dep_id) {
+		CimPersonnel result = (CimPersonnel) session.get(CimPersonnel.class,
+				cimPersonnel.getId());
+		CimDepartment cimDepartment = (CimDepartment) session.get(
+				CimDepartment.class, dep_id);
+
+		if (result == null)
+			return false;
+		
+		if (!cimPersonnel.getPersonnelName().isEmpty())
+			result.setPersonnelName(cimPersonnel.getPersonnelName());
+		if (!cimPersonnel.getPersonnelPhone().isEmpty())
+			result.setPersonnelPhone(cimPersonnel.getPersonnelPhone());
+		if (!cimPersonnel.getPersonnelPole().isEmpty())
+			result.setPersonnelPole(cimPersonnel.getPersonnelPole());
+		if (!cimPersonnel.getPersonnelPositon().isEmpty())	
+			result.setPersonnelPositon(cimPersonnel.getPersonnelPositon());
+		if (!cimPersonnel.getPersonnelPwd().isEmpty())	
+			result.setPersonnelPwd(cimPersonnel.getPersonnelPwd());
+		if (!cimPersonnel.getPersonnelSex().isEmpty())
+			result.setPersonnelSex(cimPersonnel.getPersonnelSex());
+		if (cimPersonnel.getCimDepartment() != null)
+			result.setCimDepartment(cimDepartment);
+
+		session.update(result);
+		ts.commit();
+
+		return true;
+	}
+
+	@Override
+	public List<CimPersonnel> personnelShow() {
+		Criteria criteria = session.createCriteria(CimPersonnel.class);
+		List<CimPersonnel> list = criteria.list();
+
+		return list;
+	}
+
+	@Override
+	public CimPersonnel getByName(String userid) {
+		Pattern pattern = Pattern.compile("[0-9]*");
+		if (!pattern.matcher(userid).matches())
+			return null;
+		Criteria criteria = session.createCriteria(CimPersonnel.class);
+		criteria.add(Restrictions.eq("id", Integer.parseInt(userid)));
+
+		CimPersonnel cimPersonnel = (CimPersonnel) criteria.uniqueResult();// ���ص���
+
+		return cimPersonnel;
+	}
+
+	@Override
+	public boolean isAdmin(String userid) {
+		Pattern pattern = Pattern.compile("[0-9]*");
+		if (!pattern.matcher(userid).matches())
+			return false;
+		int id = Integer.parseInt(userid);
+
+		CimPersonnel cimPersonnel = (CimPersonnel) session.get(
+				CimPersonnel.class, id);
+		if (cimPersonnel.getPersonnelPole().equals("管理员"))
+			return true;
+		return false;
+	}
+	
+	@Override
+	public CimPersonnel personnelSearch(int id) {
+		CimPersonnel result = (CimPersonnel) session.get(CimPersonnel.class, id);
+		
+		return result;
+	}
+}

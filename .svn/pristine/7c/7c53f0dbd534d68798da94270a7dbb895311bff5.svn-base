@@ -1,0 +1,98 @@
+package com.ats.dao;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
+
+import com.ats.domain.CimDepartment;
+import com.ats.domain.CimPersonnel;
+import com.ats.domain.FamAssets;
+
+public class DepDaoImpl implements DepDao {
+
+	private Configuration conf = new Configuration().configure();
+	private SessionFactory sf = conf.buildSessionFactory();
+	private Session session = sf.openSession();
+	private Transaction tran = session.beginTransaction();
+
+	@Override
+	public boolean depAdd(CimDepartment cimDepartment) {
+
+		Criteria criteria = session.createCriteria(CimDepartment.class);
+		criteria.add(Restrictions.eq("depName", cimDepartment.getDepName()));
+
+		Criteria result = (Criteria) criteria.uniqueResult();
+		if (result != null) {
+			return false;
+		}
+		session.save(cimDepartment);
+		tran.commit();
+		return true;
+	}
+
+	@Override
+	public boolean depDelete(int id) {
+		CimDepartment cimDepartment = (CimDepartment) session.get(
+				CimDepartment.class, id);
+		Criteria criteria = session.createCriteria(CimPersonnel.class);
+		List<CimPersonnel> cimPersonnelList = criteria.list();
+		criteria = session.createCriteria(FamAssets.class);
+		List<FamAssets> famAssetsList = criteria.list();
+		
+		if (cimDepartment == null) {
+			return false;
+		}
+		
+		for (CimPersonnel cimPersonnel : cimPersonnelList)
+			if (cimPersonnel.getCimDepartment().getId() == id)
+				return false;
+				
+		for (FamAssets famAssets : famAssetsList)
+			if (famAssets.getCimDepartment().getId() == id)
+				return false;
+				
+		session.delete(cimDepartment);
+		tran.commit();
+		return true;
+	}
+
+	@Override
+	public boolean depModify(CimDepartment cimDepartment) {
+		CimDepartment cimdepartment = (CimDepartment) session.get(
+				CimDepartment.class, cimDepartment.getId());
+		if (cimdepartment == null) {
+			return false;
+		}
+		
+		if (!cimDepartment.getDepName().isEmpty())
+			cimdepartment.setDepName(cimDepartment.getDepName());
+		if (!cimDepartment.getDepManager().isEmpty())
+			cimdepartment.setDepManager(cimDepartment.getDepManager());
+		if (!cimDepartment.getDepLeavel().isEmpty())
+			cimdepartment.setDepLeavel(cimDepartment.getDepLeavel());
+		
+		session.update(cimdepartment);
+		tran.commit();
+		return true;
+	}
+
+	@Override
+	public List<CimDepartment> depShow() {
+		Criteria criteria = session.createCriteria(CimDepartment.class);
+		List<CimDepartment> list = criteria.list();
+
+		return list;
+	}
+
+	@Override
+	public CimDepartment depSearch(int id) {
+		CimDepartment result = (CimDepartment) session.get(CimDepartment.class, id);
+		
+		return result;
+	}
+}

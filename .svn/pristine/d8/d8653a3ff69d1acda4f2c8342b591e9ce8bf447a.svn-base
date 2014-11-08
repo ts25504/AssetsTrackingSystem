@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="css/myindexcss.css" rel="stylesheet" style="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body background="images/header.jpg">
+	<%
+		Object isLogin = session.getAttribute("userid");
+		if (isLogin == null) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
+		<div id="header">
+			<h1 class="center">固定资产管理系统</h1>
+			<a target="_top" href="logout.jsp">注销</a>  
+			<a target="middle-right" href="middle-right.jsp">首页</a> 
+			<a target="middle-right" href="about.jsp">关于</a> 
+		</div>
+</html>

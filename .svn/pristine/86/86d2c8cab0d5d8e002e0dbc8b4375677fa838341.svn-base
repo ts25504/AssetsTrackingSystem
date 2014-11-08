@@ -1,0 +1,94 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>固定资产管理系统</title>
+<link href="css/myindexcss.css" rel="stylesheet" style="text/css">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+</head>
+<body bgcolor="#ff99ff">
+	<%
+		Object isLogin = session.getAttribute("userid");
+		if (isLogin == null) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
+				<%!String authority;%>
+			<ul>
+				<li>
+					<h3>人员信息</h3>
+					<ul>
+						<%
+							authority = (String) session.getAttribute("authority");
+							if (authority != null && authority.equals("admin")) {
+						%>
+						<li><a target="middle-right"  href="personneladd.jsp">增加人员</a></li>
+						<li><a target="middle-right" href="personnelmodify.jsp">修改人员</a></li>
+						<li><a target="middle-right" href="personneldelete.jsp">删除人员</a></li>
+						<%
+							}
+						%>
+						<li><a target="middle-right" href="personnel_show.action">查看人员</a></li>
+					</ul>
+				</li>
+				<li>
+					<h3>部门信息</h3>
+					<ul>
+						<%
+							authority = (String) session.getAttribute("authority");
+							if (authority != null && authority.equals("admin")) {
+						%>
+						<li><a target="middle-right" href="depadd.jsp">增加部门</a></li>
+						<li><a target="middle-right" href="depmodify.jsp">修改部门</a></li>
+						<li><a target="middle-right" href="depdelete.jsp">删除部门</a></li>
+						<%
+							}
+						%>
+						<li><a target="middle-right" href="dep_show.action">查看部门</a></li>
+					</ul>
+				</li>
+				<li>
+					<h3>资产信息</h3>
+					<ul>
+						<%
+							authority = (String) session.getAttribute("authority");
+							if (authority != null && authority.equals("admin")) {
+						%>
+						<li><a target="middle-right" href="assetsadd.jsp">增加资产</a></li>
+						<li><a target="middle-right" href="assetsmodify.jsp">修改资产</a></li>
+						<li><a target="middle-right" href="assetsdelete.jsp">删除资产</a></li>
+						<%
+							}
+						%>
+						<li><a target="middle-right" href="assets_show.action">查看资产</a></li>
+					</ul>
+				</li>
+				<li>
+					<h3>合同信息</h3>
+					<ul>
+						<%
+							authority = (String) session.getAttribute("authority");
+							if (authority != null && authority.equals("admin")) {
+						%>
+						<li><a target="middle-right" href="purchaseadd.jsp">增加合同</a></li>
+						<li><a target="middle-right" href="purchasemodify.jsp">修改合同</a></li>
+						<li><a target="middle-right" href="purchasedelete.jsp">删除合同</a></li>
+						<%
+							}
+						%>
+						<li><a target="middle-right" href="purchase_show.action">查看合同</a></li>
+					</ul>
+				</li>
+				<li>
+					<h3>报表信息</h3>
+					<ul>
+						<li><a target="middle-right" href="compform.action">公司报表</a></li>
+						<li><a target="middle-right" href="depform.action">部门报表</a></li>
+						<li><a target="middle-right" href="personnelform.action">个人报表</a></li>
+					</ul>
+				</li>
+			</ul>
+</body>
+</html>

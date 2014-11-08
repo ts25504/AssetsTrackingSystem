@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 指定WEB应用的编码集，相当于调用HttpServletRequest.setCharacterEncodint方法，如果使用了velocity或freemarker,它也用于指定输出的编码格式 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 指定请求后缀为.action，指定多个请求后缀用逗号分隔 -->
+	<constant name="struts.action.extension" value="action" />
+	<!--设置浏览器是否缓存静态内容，建议：开发阶段关闭，运行时开启 -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+	<!--当struts.xml配置文件修改后，系统是否重新加载该文件，开发阶段打开此功能 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!--开发提示：出错时打印更详细的信息 -->
+	<constant name="struts.devMode" value="true" />
+
+	<package name="ats" namespace="/" extends="struts-default">
+
+		<action name="login" class="com.ats.action.UserAction">
+			<result name="SUCCESS">success.jsp</result>
+			<result name="FAILED">failed.jsp</result>
+		</action>
+		<action name="personnel_*" class="com.ats.action.PersonnelAction"
+			method="{1}">
+			<result name="SUCCESS">indexsuccess.jsp</result>
+			<result name="FAILED">indexfailed.jsp</result>
+			<result name="SHOW">personnelshow.jsp</result>
+		</action>
+		<action name="assets_*" class="com.ats.action.AssetsAction"
+			method="{1}">
+			<result name="SUCCESS">indexsuccess.jsp</result>
+			<result name="FAILED">indexfailed.jsp</result>
+			<result name="SHOW">assetsshow.jsp</result>
+		</action>
+		<action name="purchase_*" class="com.ats.action.PurchaseAction"
+			method="{1}">
+			<result name="SUCCESS">indexsuccess.jsp</result>
+			<result name="FAILED">indexfailed.jsp</result>
+			<result name="SHOW">purchaseshow.jsp</result>
+		</action>
+		<action name="dep_*" class="com.ats.action.DepAction" method="{1}">
+			<result name="SUCCESS">indexsuccess.jsp</result>
+			<result name="FAILED">indexfailed.jsp</result>
+			<result name="SHOW">depshow.jsp</result>
+		</action>
+		<action name="personnelform" class="com.ats.action.PersonnelformAction">
+			<result name="SHOW">personnelformshow.jsp</result>
+		</action>
+		<action name="compform" class="com.ats.action.CompformAction">
+			<result name="SHOW">compformshow.jsp</result>
+		</action>
+		<action name="depform" class="com.ats.action.DepformAction">
+			<result name="SHOW">depformshow.jsp</result>
+		</action>
+	</package>
+</struts>    
